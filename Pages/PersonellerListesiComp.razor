@@ -1,0 +1,44 @@
+﻿@page "/personeller"
+@using PersonelUygulama.Data;
+@using PersonelUygulama.Models;
+@inject PersonelServis servis
+<h3>Personel Listesi</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Personel Id</th>
+            <th>Adı Soyadı</th>
+            <th>Doğum Tarihi</th>
+            <th>İşe Başladığı Tarih</th>
+            <th>Maaş</th>
+            <th>Departman</th>
+            <th>Çalıştığı Gün Sayısı</th>
+
+           
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var item in TumPersoneller)
+        {
+            <tr>
+                <td>@item.PersonelId</td>
+                <td>@item.AdSoyad</td>
+                <td>@item.DogumTarihi.ToShortDateString()</td>
+                <td>@item.IseBaslamaTarihi.ToShortDateString()</td>
+                <td>@item.Maas</td>
+                <td>@item.Departman</td>
+                    <td style="text-align:center">@(((DateTime.Now) - (item.IseBaslamaTarihi)).Days)</td>
+               
+            </tr>
+            
+        }      
+    </tbody>
+</table>
+
+@code {
+    public List<Personeller> TumPersoneller { get; set; }
+    protected override void OnInitialized()
+    {
+        TumPersoneller = servis.PersonelleriGetir();
+    }
+}

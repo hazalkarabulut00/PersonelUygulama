@@ -1,0 +1,43 @@
+﻿@page "/yeniPersonel"
+@using PersonelUygulama.Data;
+@using PersonelUygulama.Models;
+@inject PersonelServis servis
+<h3>Yeni Personel Ekle</h3>
+
+<EditForm Model="EklenecekPersonel" OnSubmit="PersonelKaydet"> 
+    <div class="row">
+        <label class="col-2">Adı Soyadı</label>
+        <InputText @bind-Value="EklenecekPersonel.AdSoyad" class="col-6"></InputText>
+    </div>
+    <div class="row">
+        <label class="col-2">Doğum Tarihi</label>
+        <InputDate @bind-Value="EklenecekPersonel.DogumTarihi" class="col-6"></InputDate>
+    </div>
+    <div class="row">
+        <label class="col-2">İşe Başlama Tarihi</label>
+        <InputDate @bind-Value="EklenecekPersonel.IseBaslamaTarihi" class="col-6"></InputDate>
+    </div>
+    <div class="row">
+        <label for="Maas" class="col-2">Maaşı</label>
+        <InputNumber @bind-Value="EklenecekPersonel.Maas" class="col-6"></InputNumber>
+    </div>
+    <div class="row">
+        <select @bind="EklenecekPersonel.Departman">
+            <option value="1">Web</option>
+            <option value="2">Mobil</option>
+            <option value="3">Masaüstü</option>
+        </select>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary" type="submit">Ekle</button>
+    </div>
+</EditForm>
+
+@code {
+    public Personeller EklenecekPersonel { get; set; } = new Personeller();
+
+    public void PersonelKaydet()
+    {
+        servis.PersonelEkle(EklenecekPersonel);
+    }
+}

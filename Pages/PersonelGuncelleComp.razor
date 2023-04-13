@@ -1,0 +1,58 @@
+﻿@page "/guncelle"
+@using PersonelUygulama.Data;
+@using PersonelUygulama.Models;
+@inject PersonelServis servis
+<h3>Personel Güncelle</h3>
+<EditForm Model="GuncelPersonel">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numarası</th>
+                <th>Adı Soyadı</th>
+                <th>Departmanı</th>
+                <th>Maaşı</th>
+                <th></th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in GuncelPersonel)
+            {
+                <tr>
+                    <td><p>@item.PersonelId</p></td>
+                    <td><p> @item.AdSoyad</p></td>
+                    <td><InputText @bind-Value=item.Departman> </InputText></td>
+                    <td><InputNumber @bind-Value=item.Maas>  </InputNumber></td>
+
+                    <td><button @onclick="() => PersonelSil(item)">X</button></td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <button  type="submit" @onclick="PersonalGuncelle">Güncelle</button>
+
+</EditForm>
+
+
+
+@code {
+    public List<Personeller> GuncelPersonel { get; set; }
+    protected override void OnInitialized()
+    {
+        GuncelPersonel = servis.PersonelleriGetir();
+    }
+    public void PersonalGuncelle()
+    {
+        servis.PersonelBilgisiGuncelle(GuncelPersonel);
+    }
+
+    public void PersonelSil(Personeller personel)
+    {
+        servis.PersonelSil(personel);
+        GuncelPersonel = servis.PersonelleriGetir();
+
+    }
+}
